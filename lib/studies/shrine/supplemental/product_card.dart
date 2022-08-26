@@ -28,7 +28,7 @@ class MobileProductCard extends StatelessWidget {
     return Semantics(
       container: true,
       button: true,
-      enabled: true,
+      enabled: false, // semantics disabled here to test it with Screen Readers
       child: _buildProductCard(
         context: context,
         product: product,
@@ -86,22 +86,33 @@ Widget _buildProductCard({
     fit: BoxFit.cover,
     width: isDesktop ? imageWidth : null,
     height: isDesktop ? null : double.infinity,
-    excludeFromSemantics: true,
+    // excludeFromSemantics: true,
   );
 
   return ScopedModelDescendant<AppStateModel>(
     builder: (context, child, model) {
-      return Semantics(
-        hint: GalleryLocalizations.of(context)!
-            .shrineScreenReaderProductAddToCart,
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          child: GestureDetector(
-            onTap: () {
-              model.addProductToCart(product.id);
-            },
-            child: child,
-          ),
+      // return Semantics(
+      //   hint: GalleryLocalizations.of(context)!
+      //       .shrineScreenReaderProductAddToCart,
+      //   child: MouseRegion(
+      //     cursor: SystemMouseCursors.click,
+      //     child: GestureDetector(
+      //       onTap: () {
+      //         model.addProductToCart(product.id);
+      //       },
+      //       child: child,
+      //     ),
+      //   ),
+      // );
+
+      // to test w/o semantics!
+      return MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: GestureDetector(
+          onTap: () {
+            model.addProductToCart(product.id);
+          },
+          child: child,
         ),
       );
     },
